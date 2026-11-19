@@ -1,0 +1,172 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Logo } from '../ui/Logo';
+import { ArrowLeft, CheckCircle2, ShieldCheck, MapPin, Sun, Moon } from 'lucide-react';
+import { useTheme } from '../../context/ThemeContext';
+
+interface AuthLayoutProps {
+  children: React.ReactNode;
+  title: string;
+  subtitle: string;
+}
+
+export const AuthLayout: React.FC<AuthLayoutProps> = ({ children, title, subtitle }) => {
+  const { isDark, toggleTheme } = useTheme();
+
+  return (
+    <div className="min-h-[100dvh] lg:h-[100dvh] lg:overflow-hidden grid grid-cols-1 lg:grid-cols-12 bg-white dark:bg-[#070709] text-zinc-900 dark:text-white selection:bg-[#E31B23] selection:text-white antialiased transition-colors duration-200">
+      
+      {/* Left Form Area (5 cols on lg, 6 cols on xl) */}
+      <div className="lg:col-span-6 xl:col-span-5 bg-white dark:bg-[#070709] z-10 lg:h-full lg:overflow-y-auto border-r border-zinc-200 dark:border-white/10 transition-colors duration-200">
+        <div className="min-h-full flex flex-col justify-between p-6 sm:p-10 md:p-14 lg:p-12 xl:p-16">
+          {/* Header with Logo and Return Link */}
+          <header className="flex items-center justify-between mb-8 sm:mb-10 shrink-0">
+            <Logo to="/" size="md" variant={isDark ? 'light' : 'dark'} />
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={toggleTheme}
+                className="w-8 h-8 rounded-full flex items-center justify-center transition-colors cursor-pointer border bg-zinc-100 dark:bg-white/5 hover:bg-zinc-200 dark:hover:bg-white/10 text-zinc-700 dark:text-amber-300 border-zinc-200 dark:border-white/15"
+                title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                aria-label="Toggle theme mode"
+              >
+                {isDark ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
+              </button>
+              <Link
+                to="/"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-500 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white transition-colors group"
+              >
+                <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
+                <span>Back to events</span>
+              </Link>
+            </div>
+          </header>
+
+          {/* Form Container */}
+          <div className="my-auto py-4 max-w-md w-full mx-auto space-y-6">
+            <div className="space-y-1.5">
+              <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-zinc-950 dark:text-white">
+                {title}
+              </h1>
+              <p className="text-zinc-600 dark:text-zinc-400 text-sm font-normal leading-relaxed">
+                {subtitle}
+              </p>
+            </div>
+
+            {children}
+          </div>
+
+          {/* Clean Legal Footer */}
+          <footer className="mt-10 pt-6 border-t border-zinc-200 dark:border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-zinc-500 shrink-0">
+            <span>&copy; {new Date().getFullYear()} StraytTix Technologies</span>
+            <div className="flex items-center gap-4">
+              <Link to="/terms" className="hover:text-zinc-900 dark:hover:text-zinc-300 transition-colors">Terms</Link>
+              <span>•</span>
+              <Link to="/privacy" className="hover:text-zinc-900 dark:hover:text-zinc-300 transition-colors">Privacy</Link>
+              <span>•</span>
+              <Link to="/contact" className="hover:text-zinc-900 dark:hover:text-zinc-300 transition-colors">Help</Link>
+            </div>
+          </footer>
+        </div>
+      </div>
+
+      {/* Right Visual Area (6 cols on lg, 7 cols on xl) - Static container */}
+      <div className="hidden lg:col-span-6 xl:col-span-7 lg:relative lg:flex flex-col justify-between p-12 xl:p-16 overflow-hidden bg-black text-white lg:h-full select-none">
+        
+        {/* Background Atmospheric Event Image */}
+        <img
+          src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=1600&q=85"
+          alt="Concert stage atmosphere"
+          className="absolute inset-0 w-full h-full object-cover opacity-35 mix-blend-luminosity brightness-90"
+        />
+        
+        {/* Deep, natural vignetting overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#070709] via-black/60 to-[#070709]/80" />
+
+        {/* Top Tagline */}
+        <div className="relative z-10 flex items-center justify-between">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md text-xs font-semibold text-zinc-200 border border-white/15">
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+            <span>Verified Live Event Platform</span>
+          </div>
+
+          <span className="text-xs font-mono text-zinc-400">
+            strayttix.live
+          </span>
+        </div>
+
+        {/* Center Floating Pass Preview with Whimsical Levitation Animation */}
+        <div className="relative z-10 my-auto py-8">
+          <motion.div 
+            animate={{ 
+              y: [0, -10, 0],
+              rotate: [0, 0.4, 0]
+            }}
+            transition={{ 
+              duration: 6,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+            whileHover={{ scale: 1.02, y: -4 }}
+            className="max-w-md mx-auto bg-[#0F0F14]/90 backdrop-blur-xl border border-white/15 rounded-3xl p-6 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.8)] space-y-4 transition-colors"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-mono uppercase tracking-wider text-red-400 font-bold flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#E31B23] animate-ping" />
+                <span>Live Pass Preview</span>
+              </span>
+              <span className="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-400 bg-emerald-950/60 px-2.5 py-0.5 rounded-full border border-emerald-800/40">
+                <CheckCircle2 className="w-3 h-3" />
+                <span>Instant QR Ready</span>
+              </span>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-black text-white tracking-tight">
+                Afrobeats Symphony Live '26
+              </h3>
+              <p className="text-xs text-zinc-400 flex items-center gap-1.5 mt-1 font-medium">
+                <MapPin className="w-3.5 h-3.5 text-[#E31B23]" />
+                <span>Eko Convention Centre • Victoria Island, Lagos</span>
+              </p>
+            </div>
+
+            <div className="pt-3 border-t border-white/10 flex items-center justify-between text-xs">
+              <div>
+                <span className="text-zinc-500 block text-[10px] uppercase font-mono">Entry Tier</span>
+                <span className="font-bold text-zinc-200">VIP Golden Circle</span>
+              </div>
+              <div className="text-right">
+                <span className="text-zinc-500 block text-[10px] uppercase font-mono">Date & Time</span>
+                <span className="font-bold text-zinc-200">Oct 24 • Doors 19:00</span>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Bottom Testimonial / Social Proof */}
+        <div className="relative z-10 max-w-lg space-y-3">
+          <p className="text-sm sm:text-base text-zinc-300 leading-relaxed font-normal italic">
+            &ldquo;Over 15,000 attendees checked in across our 3 festival stages without a single line bottleneck. StraytTix is the most reliable live event infrastructure we&apos;ve ever operated.&rdquo;
+          </p>
+          <div className="flex items-center gap-3 pt-1">
+            <img
+              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80"
+              alt="Festival Director"
+              className="w-9 h-9 rounded-full object-cover border border-white/20"
+            />
+            <div>
+              <p className="text-xs font-bold text-white">Tola Adesanya</p>
+              <p className="text-[11px] text-zinc-400">Head of Operations, Soundclash Live</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  );
+};
+
+export default AuthLayout;
